@@ -4,7 +4,6 @@ namespace Proman\ValidationRules;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Proman\ValidationRules\Commands\ValidationRulesCommand;
 
 class ValidationRulesServiceProvider extends PackageServiceProvider
 {
