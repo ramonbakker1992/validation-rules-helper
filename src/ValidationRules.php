@@ -18,11 +18,7 @@ class ValidationRules
 
     public function setRules(array $rules): self
     {
-        $defaultRules = $this->validation();
-
-        $this->rules = array_map(function ($rule) {
-            return explode('|', $rule);
-        }, $rules + $defaultRules);
+        $this->rules = $rules + $this->validation();
 
         return $this;
     }
