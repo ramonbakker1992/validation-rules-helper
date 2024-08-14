@@ -20,6 +20,13 @@ class ValidationRules
     {
         $this->rules = $rules + $this->validation();
 
+        foreach ($this->rules as $field => $rules) {
+            // Make sure the first key always a value of 'nullable'
+            if ($this->rules[$field][0] !== 'nullable') {
+                array_unshift($this->rules[$field], 'nullable');
+            }
+        }
+
         return $this;
     }
 
@@ -37,12 +44,18 @@ class ValidationRules
 
     public function required(array $keys): self
     {
-        foreach ($keys as $fieldOrKey => $fieldOrRule) {
-            if (is_int($fieldOrKey) && isset($this->rules[$fieldOrRule])) {
-                array_unshift($this->rules[$fieldOrRule], 'required');
-            } else if (isset($this->rules[$fieldOrKey])) {
-                array_unshift($this->rules[$fieldOrKey], $fieldOrRule);
+        $normalizedKeys = [];
+
+        foreach ($keys as $key => $value) {
+            if (is_int($key)) {
+                $normalizedKeys[$value] = 'required';
+            } else {
+                $normalizedKeys[$key] = $value;
             }
+        }
+
+        foreach ($normalizedKeys as $field => $rule) {
+            $this->rules[$field][0] = $rule;
         }
 
         return $this;
