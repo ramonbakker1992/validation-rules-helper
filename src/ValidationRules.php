@@ -21,6 +21,8 @@ class ValidationRules
         $this->rules = $rules + $this->validation();
 
         foreach ($this->rules as $field => $rules) {
+            $this->rules[$field] = is_array($rules) ? $rules : explode('|', $rules);
+
             // Make sure the first key always a value of 'nullable'
             if ($this->rules[$field][0] !== 'nullable') {
                 array_unshift($this->rules[$field], 'nullable');
